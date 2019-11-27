@@ -27,18 +27,28 @@ class CountryData
   end
 
   def self.all_data_sorted_by_population_decreasing_order
+    result = DatabaseConnection.query("SELECT * FROM countries ORDER BY population DESC;")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_greater_than_100_million
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE population > 100,000,000;")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_less_than_20_million
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE population < 20,000,000;")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_density_between_50_and_150
-  end
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE density < 150 AND density > 50;")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
+    end
 
   def self.highest_gni_per_capita_in_asia
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE MAX(gni/population);")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.third_lowest_gni_per_capita_in_south_america
